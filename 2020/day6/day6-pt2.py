@@ -1,7 +1,6 @@
 def load_customs_data():
   data =[]
   df = open('aoc-2020-6-input', 'r')
-  # df = open('test2', 'r')
   lines = df.readlines()
   for line in lines:
     data.append(line.strip())

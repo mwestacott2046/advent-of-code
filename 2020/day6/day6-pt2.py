@@ -9,24 +9,8 @@ def load_customs_data():
 
 
 def process_customs_data (customs_data):
-  groups = []
-  group_questions = {}
-  group_passengers =0
-
-  for line in customs_data:
-    if len(line) ==0:
-      groups.append((group_questions, group_passengers))
-      group_questions = {}
-      group_passengers =0
-    else:
-      group_passengers +=1
-      for question in line:
-        group_questions[question] = group_questions.get(question, 0) +1
-
-  if len(group_questions) !=0:
-    groups.append((group_questions, group_passengers))
+  groups = create_groups(customs_data)
   
-  # count questions
   counts = []
   for group in groups:
     count = 0
@@ -38,6 +22,26 @@ def process_customs_data (customs_data):
     counts.append(count)
 
   return sum(counts)
+
+def create_groups(customs_data):
+    groups = []
+    group_questions = {}
+    group_passengers =0
+
+    for line in customs_data:
+      if len(line) ==0:
+        groups.append((group_questions, group_passengers))
+        group_questions = {}
+        group_passengers =0
+      else:
+        group_passengers +=1
+        for question in line:
+          group_questions[question] = group_questions.get(question, 0) +1
+
+    if len(group_questions) !=0:
+      groups.append((group_questions, group_passengers))
+    
+    return groups
 
 
 print (process_customs_data (load_customs_data()))

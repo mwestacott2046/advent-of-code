@@ -1,6 +1,7 @@
 EMPTY_SEAT = 'L'
 OCCUPIED_SEAT = '#'
 
+
 def load_seats(filename):
   seat_file = open(filename,'r')
   lines = seat_file.readlines();
@@ -83,6 +84,7 @@ def get_populated_directional (seat_map, row_idx, col_idx, max_row_index, max_co
 
   return populated
 
+
 def are_different(prev, next):
   for row_idx, prev_row in enumerate(prev):
     next_row = next[row_idx]
@@ -91,6 +93,7 @@ def are_different(prev, next):
         return True
 
   return False
+
 
 def apply_seating_rules (seat_map):
 
@@ -132,6 +135,7 @@ def count_seated(seat_map):
         seated +=1
 
   return seated
+
 
 # seat_map = load_seats('test-input')
 seat_map = load_seats('aoc-2020-11-input')

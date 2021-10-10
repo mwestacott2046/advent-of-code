@@ -1,4 +1,5 @@
 
+
 def load_instuctions(filename):
   instructions_file = open(filename,'r')
   lines = instructions_file.readlines()
@@ -11,40 +12,31 @@ def load_instuctions(filename):
   return instructions
 
 def decode_instruction (instruction):
-  return (instruction[:1], int(instruction[1:]))
+  return instruction[:1], int(instruction[1:])
 
 
-def turn_left(current_direction, degrees):
-  turn_left_lookup = {
-    'E': 'N',
-    'N': 'W',
-    'W': 'S',
-    'S': 'E',
-    }
+def rotate_left(degrees, waypoint):
   
   while degrees > 0:
-    current_direction = turn_left_lookup[current_direction]
+    ns, ew = waypoint
+    waypoint = (ew * 1, ns * -1)
     degrees -=90
 
-  return current_direction
+  return waypoint
 
 
-def turn_right(current_direction, degrees):
-  turn_right_lookup = {
-    'E': 'S',
-    'S': 'W',
-    'W': 'N',
-    'N': 'E',
-    }
+def rotate_right(degrees, waypoint):
+
   while degrees > 0:
-    current_direction = turn_right_lookup[current_direction]
+    ns, ew = waypoint
+    waypoint = (ew * -1, ns * 1)
     degrees -=90
 
-  return current_direction
+  return waypoint
 
 
-def move_ship (command, distance, current_position):
-  north_south, east_west = current_position
+def move_waypoint (command, distance, waypoint_position):
+  north_south, east_west = waypoint_position
   
   if command == 'N':
     north_south += distance
@@ -55,27 +47,33 @@ def move_ship (command, distance, current_position):
   elif command == 'W':
     east_west += (distance *-1)
 
-  # print ('N/S', north_south, 'E/W', east_west)
   return (north_south, east_west)
+
+def move_ship(waypoint, multiplier, ship_position):
+  wp_ns, wp_ew = waypoint
+  sp_ns, sp_ew = ship_position
+
+  sp_ns += (wp_ns * multiplier)
+  sp_ew += (wp_ew * multiplier)
+
+  return (sp_ns, sp_ew)
+
 
 def process_instructions (instructions):
 
-  direction = 'E'
   position = (0,0) # +N/-S, +E/-W
+  waypoint = (1, 10)
 
   for instr in instructions:
     command, param = decode_instruction(instr)
-    # print(command, param)
     if command =='F':
-      position = move_ship (direction, param, position)
-      pass
+      position = move_ship (waypoint, param, position)
     elif command =='R':
-      direction = turn_right(direction, param)
+      waypoint = rotate_right(param, waypoint)
     elif command =='L':
-      direction = turn_left(direction, param)
+      waypoint = rotate_left(param, waypoint)
     else:
-      position = move_ship (command, param, position)
-      pass
+      waypoint = move_waypoint (command, param, waypoint)
 
   return position
 
@@ -88,6 +86,5 @@ instructions = load_instuctions('aoc-2020-12-input')
 # instructions = load_instuctions('test-input')
 
 position = process_instructions(instructions)
-# print (position)
 print('Manhattan Distance', calc_manhattan_distance (position))
 

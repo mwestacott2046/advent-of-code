@@ -2,5 +2,6 @@
 Solutions to Advent of Code
 
 ## Solutions for 2020
-Attempting to brush up my python skills using AOC.
+Brushing up my python skills using Advent of Code
+
 

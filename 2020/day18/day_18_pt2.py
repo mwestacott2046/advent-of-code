@@ -30,6 +30,16 @@ def evaluate_postfix(postfix_expr):
   result = calc_stack.pop()
   return result
 
+
+def get_precedence(operator):
+  if operator == '*':
+    return 1
+  elif operator == '+':
+    return 2
+  else:
+    return 0
+  
+
 def infix_to_postfix(expr):
     expression = []
     op_stack = []
@@ -38,7 +48,7 @@ def infix_to_postfix(expr):
         expression.append(ch)
 
       elif ch =='+' or ch =='*':
-        while len(op_stack) > 0 and op_stack[-1] != '(':
+        while len(op_stack) > 0 and op_stack[-1] != '(' and get_precedence(ch) <= get_precedence(op_stack[-1]):
           expression.append(op_stack.pop())
         op_stack.append(ch)
 

@@ -24,7 +24,12 @@ public class DayFour {
     }
 
     public int getSectionCount(List<String> data, Function<SectionPair, Boolean> setComparator) {
-        return data.stream().map(this::createSection).map(setComparator).filter(val -> val == true).collect(Collectors.toList()).size();
+        return data.stream()
+                .map(this::createSection)
+                .map(setComparator)
+                .filter(val -> val == true)
+                .collect(Collectors.toList())
+                .size();
     }
 
     public SectionPair createSection(String line) {

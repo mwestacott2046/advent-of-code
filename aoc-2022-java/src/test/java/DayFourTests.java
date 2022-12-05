@@ -48,7 +48,7 @@ public class DayFourTests {
     }
 
     @Test
-    public void getContainedCount (){
+    public void getContainedCount() {
         var data = Arrays.asList(
                 "2-4,6-8",
                 "2-3,4-5",
@@ -59,12 +59,12 @@ public class DayFourTests {
 
         DayFour ops = new DayFour();
 
-        Assertions.assertEquals(2,ops.getContainedCount(data));
+        Assertions.assertEquals(2, ops.getSectionCount(data, ops::isFullyContainedWithin));
 
     }
 
     @Test
-    public void getIntersectedCount (){
+    public void getIntersectedCount() {
         var data = Arrays.asList(
                 "2-4,6-8",
                 "2-3,4-5",
@@ -75,7 +75,7 @@ public class DayFourTests {
 
         DayFour ops = new DayFour();
 
-        Assertions.assertEquals(4,ops.getIntersectedCount(data));
+        Assertions.assertEquals(4, ops.getSectionCount(data, ops::isIntersected));
 
     }
 

@@ -11,7 +11,6 @@ import java.util.List;
 public class ResourceDataLoader {
 
     public List<String> getDataList(String filename, boolean isTest) {
-
         String filepath;
         if (isTest) {
             filepath = "/test-data/" + filename;
@@ -26,6 +25,26 @@ public class ResourceDataLoader {
         }
     }
 
+    public String getDataText(String filename, boolean isTest) {
+        String filepath;
+        if (isTest) {
+            filepath = "/test-data/" + filename;
+        } else {
+            filepath = "/data/" + filename;
+        }
+
+        try {
+            return getTextFromResource(filepath);
+        } catch (URISyntaxException | IOException e) {
+            return null;
+        }
+
+    }
+
+    private String getTextFromResource(String name) throws URISyntaxException, IOException {
+        Path path = getPath(name);
+        return Files.readString(path, StandardCharsets.UTF_8);
+    }
 
 
     private List<String> getListFromResource(String name) throws URISyntaxException, IOException {
